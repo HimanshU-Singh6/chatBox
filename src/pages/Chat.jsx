@@ -1,8 +1,12 @@
-import React from 'react'
+import React from "react"
+import { Container,Chat as ChatComponent } from "../components"
 
 const Chat = () => {
+
   return (
-    <div>Chat</div>
+    <Container>
+      <ChatComponent />
+    </Container>
   )
 }
 

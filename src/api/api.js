@@ -52,4 +52,12 @@ const signupUser = async ({username,password,email}) => {
     }
 }
 
-export {loginUser, signupUser}
+const logoutUser = async () => {
+    try {
+        return await apiClient.post('/users/logout')
+    } catch (error) {
+        console.log("Error setting up the signup:", error.message);
+    }
+}
+
+export {loginUser, signupUser , logoutUser}
