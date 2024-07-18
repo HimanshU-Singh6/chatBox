@@ -60,4 +60,12 @@ const logoutUser = async () => {
     }
 }
 
-export {loginUser, signupUser , logoutUser}
+const getUserChat = async () => {
+    try {
+        return await apiClient.get('/chat-app/chats')
+    } catch (error) {
+        console.log("Error in reteriving the user chat list:", error.message);
+    }
+}
+
+export {getUserChat, loginUser, signupUser , logoutUser}

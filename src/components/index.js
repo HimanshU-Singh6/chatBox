@@ -6,5 +6,6 @@ import Chat from "./chat/Chat";
 import Button from "./Button";
 import Select from "./Select";
 import Msg from "./Msg";
+import CurrentChat from "./chat/CurrentChat"
 
-export { Msg, Signup, Container, Login, Input, Chat, Button, Select };
+export {CurrentChat, Msg, Signup, Container, Login, Input, Chat, Button, Select };

@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
+import { getUserChat } from "./api/api";
 import { login } from "./features/authSlice";
+import { addChatUser } from "./features/userSlice";
 
 function App() {
   const token = localStorage.getItem('token');
@@ -10,7 +12,8 @@ function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [theme, setTheme] = useState("dark");
-
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+  
   const toggleTheme = () => {
     if (theme === "dark") {
       setTheme("light");
@@ -18,7 +21,7 @@ function App() {
       setTheme("dark");
     }
   };
-
+  
   useEffect(() => {
     if (token && user) {
       dispatch(login(user,token))
@@ -27,7 +30,23 @@ function App() {
       navigate("/login");
     }
   }, []);
+  
+  useEffect(()=>{
+    ;(async ()=>{
+      try {
+        if(!isLoggedIn) return;
+        const res = await getUserChat();
+        const data = res.data;
+        if(data.statusCode === 200){
+          dispatch(addChatUser(data.data[0]))
+        }
+      } catch (error) {
+        console.error("chat error ",error);
+      }
+    })();
+  },[isLoggedIn])
 
+  
   useEffect(() => {
     document.documentElement.classList.remove("light", "dark");
     if (theme === "dark") {
@@ -36,6 +55,8 @@ function App() {
       document.documentElement.classList.add("light");
     }
   }, [theme]);
+  
+
 
   return (
     <>

@@ -19,8 +19,6 @@ const Signup = () => {
   const formSubmission = async (data) => {
     try {
       const responce = await signupUser(data);
-      console.log(responce)
-      console.log(responce.data.success)
       if(responce.data.success) {
         const {username, password} = data;
         const res = await loginUser({username, password});
