@@ -4,6 +4,7 @@ import { logoutUser } from "../../api/api";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout } from "../../features/authSlice";
+import { deleteChatUser } from "../../features/userSlice";
 
 const Chat = () => {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ const Chat = () => {
         localStorage.removeItem("user");
         navigate("/login");
         dispatch(logout())
+        dispatch(deleteChatUser());
       } else {
         console.log("Failed to logout");
       }

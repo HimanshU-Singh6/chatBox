@@ -62,7 +62,9 @@ const logoutUser = async () => {
 
 const getUserChat = async () => {
     try {
-        return await apiClient.get('/chat-app/chats')
+        const res = await apiClient.get('/chat-app/chats')
+        return res;
+
     } catch (error) {
         console.log("Error in reteriving the user chat list:", error.message);
     }

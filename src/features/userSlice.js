@@ -22,7 +22,7 @@ const chatUsers = createSlice({
             state.push(action.payload);
         },
         deleteChatUser: (state, action) => {
-            return state.filter(user => user.id!== action.payload);
+            return [];
         },
     }
 })

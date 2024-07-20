@@ -36,9 +36,12 @@ function App() {
       try {
         if(!isLoggedIn) return;
         const res = await getUserChat();
-        const data = res.data;
-        if(data.statusCode === 200){
-          dispatch(addChatUser(data.data[0]))
+        const data = res?.data;
+
+        if(data?.statusCode === 200){
+          data.data.map((obj)=>{
+            dispatch(addChatUser(obj))
+          })
         }
       } catch (error) {
         console.error("chat error ",error);
@@ -48,6 +51,7 @@ function App() {
 
   
   useEffect(() => {
+    // seedData();
     document.documentElement.classList.remove("light", "dark");
     if (theme === "dark") {
       document.documentElement.classList.add("dark");
