@@ -16,20 +16,26 @@ const users = createSlice({
 
 const chatUsers = createSlice({
     name:'chatUsers',
-    initialState:[],
+    initialState:{
+      selectedUserData:null,
+      currentChatUsers:[],
+    },
     reducers: {
         addChatUser: (state, action) => {
-            state.push(action.payload);
+            state.currentChatUsers.push(action.payload);
         },
-        deleteChatUser: (state, action) => {
-            return [];
+        addSelectedUserData: (state, action) => {
+            state.selectedUserData = action.payload;
+        },
+        deleteChatUser: (state) => {
+            state.currentChatUsers = [];
         },
     }
 })
 export const chatReducer = chatUsers.reducer;
 
 
-export const { addChatUser, deleteChatUser } = chatUsers.actions;
+export const { addChatUser, deleteChatUser,addSelectedUserData } = chatUsers.actions;
 
 export const { addUser, deleteUser } = users.actions;
 

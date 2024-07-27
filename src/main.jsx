@@ -13,6 +13,7 @@ import Chat from "./pages/Chat.jsx";
 import Signup from "./pages/Signup.jsx";
 import { Provider } from "react-redux";
 import store from "./store/store.js";
+import { SocketProvider } from "./context/socketContext";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -27,7 +28,9 @@ const router = createBrowserRouter(
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <SocketProvider>
+        <RouterProvider router={router} />
+      </SocketProvider>
     </Provider>
   </React.StrictMode>
 );

@@ -22,9 +22,17 @@ const Login = () => {
       const responce = await loginUser(data);
       const userData = responce.data?.data;
       if (userData) {
+        console.log(userData.user.username);
         localStorage.setItem("token", userData.accessToken);
         localStorage.setItem("user", JSON.stringify(userData.user));
-        dispatch(login(userData.user, userData.accessToken));
+        localStorage.setItem("username", userData.user.username);
+        dispatch(
+          login({
+            userData: userData.user,
+            accessToken: userData.accessToken,
+            username: userData.user.username,
+          })
+        );
         navigate("/");
         reset();
       } else {
@@ -74,7 +82,12 @@ const Login = () => {
       </div>
       <div className="flex gap-3 justify-center">
         <p>don't have a account</p>
-        <Link to={"/signup"} className="text-blue-700 capitalize hover:text-accent">Sign Up</Link>
+        <Link
+          to={"/signup"}
+          className="text-blue-700 capitalize hover:text-accent"
+        >
+          Sign Up
+        </Link>
       </div>
     </div>
   );

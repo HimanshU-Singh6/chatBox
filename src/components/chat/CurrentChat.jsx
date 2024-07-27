@@ -7,15 +7,19 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import { useEffect, useState, useMemo } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addSelectedUserData } from "../../features/userSlice";
+
 
 const CurrentChat = () => {
-  const chatUser = useSelector((state) => state.chatUsers);
+  const chatUser = useSelector((state) => state.chatUsers.currentChatUsers);
   const loggedInUser = useSelector((state) => state.auth.userData);
   const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
 
   const fetchUsers = useMemo(() => {
-    if (!loggedInUser || !chatUser.length) return [];
+    if (!loggedInUser || !chatUser?.length) return [];
 
     let userName;
     try {
@@ -35,6 +39,7 @@ const CurrentChat = () => {
               JSON.stringify({
                 username: participant.username,
                 avatarUrl: participant.avatar.url,
+                userID: participant._id,
               })
             );
           }
@@ -42,25 +47,35 @@ const CurrentChat = () => {
       }
     });
 
-
     return Array.from(uniqueUsers).map((userStr) => JSON.parse(userStr));
   }, [chatUser, loggedInUser]);
 
   useEffect(() => {
-    setUsers(fetchUsers);
+    const usersList = fetchUsers;
+    if (usersList.length > 0) {
+      setUsers(usersList);
+      setLoading(false);
+    }
   }, [fetchUsers]);
 
-  const handleClick = (username) => {
-    // Handle click event here
+  const handleClick = (obj) => {
+    if(obj){
+      dispatch(addSelectedUserData(obj));
+    }
   };
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  
   return (
-    <Card className="w-full m-4">
+    <Card className="w-full m-4 bg-background">
       <List>
         {users.map((obj) => (
           <ListItem
             key={obj.username}
-            onClick={() => handleClick(obj.username)}
+            onClick={() => handleClick(obj)}
             className="hover:bg-secondary"
           >
             <ListItemPrefix>
@@ -72,7 +87,7 @@ const CurrentChat = () => {
               />
             </ListItemPrefix>
             <div>
-              <Typography variant="h6" color="blue-gray">
+              <Typography variant="h6">
                 {obj.username}
               </Typography>
             </div>

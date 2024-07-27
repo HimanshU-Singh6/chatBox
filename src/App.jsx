@@ -9,6 +9,7 @@ import { addChatUser } from "./features/userSlice";
 function App() {
   const token = localStorage.getItem('token');
   const user = localStorage.getItem('user');
+  const username = localStorage.getItem('username');
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [theme, setTheme] = useState("dark");
@@ -21,10 +22,9 @@ function App() {
       setTheme("dark");
     }
   };
-  
   useEffect(() => {
-    if (token && user) {
-      dispatch(login(user,token))
+    if (token && user && username) {
+      dispatch(login({user,token,username}))
       navigate('/')
     } else {
       navigate("/login");
